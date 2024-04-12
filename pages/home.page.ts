@@ -28,11 +28,8 @@ export default class HomePage extends BasePage {
     return text;
   }
 
-  async getTotalRecordsCount(): Promise<number | null> {
+  async getTotalRecordsCount(): Promise<number> {
     const countText = await this.textTotalRecordsCount.textContent();
-    if (countText === "N/A") {
-      return null;
-    }
     const count = Number(countText);
     return count;
   }

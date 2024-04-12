@@ -1,6 +1,6 @@
 import { test, expect } from "../fixtures/pomSynpressFixture";
 import * as metamask from "@synthetixio/synpress/commands/metamask";
-import { expectedValues } from "../testData/expectedValues";
+import { citizenData, expectedValues } from "../testData/dappDemoTestsData";
 
 test.describe("Dapp Demo Tests", () => {
   test.beforeEach(async ({ homePage }) => {
@@ -20,7 +20,7 @@ test.describe("Dapp Demo Tests", () => {
     expect(await homePage.getAddCitizenHeaderButtonText()).toEqual(
       expectedValues.addCitizenButtonTextExpected
     );
-    expect(await homePage.getTotalRecordsCount()).not.toBeNull();
+    expect(await homePage.getTotalRecordsCount()).not.toEqual(0);
     await expect(homePage.tableCitizens).toBeVisible();
   });
 
@@ -34,10 +34,26 @@ test.describe("Dapp Demo Tests", () => {
     expect(await homePage.getConnectButtonText()).toEqual(
       expectedValues.connectButtonTextExpected
     );
-    expect(await homePage.getTotalRecordsCount()).toBeNull();
+    expect(await homePage.getTotalRecordsCount()).toEqual(0);
     await expect(homePage.textWalletNotConnected).toBeVisible();
     expect(await homePage.getWalletNotConnectedText()).toEqual(
       expectedValues.walletNotConnectedTextExpected
     );
+  });
+
+  test("Adding new citizen is successful", async ({
+    homePage,
+    addCitizenPage,
+  }) => {
+    const totalCountBefore = await homePage.getTotalRecordsCount();
+    await homePage.btnAddCitizenHeader.click();
+    await addCitizenPage.addCitizen(citizenData);
+    await expect(addCitizenPage.msgCitizenAddedSuccess).toBeVisible({
+      timeout: 60000,
+    });
+    await homePage.navigate();
+    await homePage.page.waitForSelector("[data-testid='citizenRow-1']");
+    const totalCountAfter = await homePage.getTotalRecordsCount();
+    expect(totalCountAfter).toBeGreaterThan(totalCountBefore);
   });
 });

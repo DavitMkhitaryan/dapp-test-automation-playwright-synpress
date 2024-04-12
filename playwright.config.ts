@@ -38,6 +38,7 @@ export default defineConfig({
     baseURL: process.env.ENVIRONMENT_URL,
   },
   reportSlowTests: null,
+  timeout: 90000,
   /* Configure projects for major browsers */
   projects: [
     {

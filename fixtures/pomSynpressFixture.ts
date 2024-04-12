@@ -5,11 +5,13 @@ import { setExpectInstance } from "@synthetixio/synpress/commands/playwright";
 import { resetState } from "@synthetixio/synpress/commands/synpress";
 import dotenv from "dotenv";
 import HomePage from "../pages/home.page";
+import AddCitizenPage from "../pages/addCitizen.page";
 dotenv.config();
 
 interface Page {
   context: BrowserContext;
   homePage: HomePage;
+  addCitizenPage: AddCitizenPage;
 }
 
 export const test = base.extend<Page>({
@@ -53,6 +55,9 @@ export const test = base.extend<Page>({
   },
   homePage: async ({ page }, use) => {
     await use(new HomePage(page));
+  },
+  addCitizenPage: async ({ page }, use) => {
+    await use(new AddCitizenPage(page));
   },
 });
 
