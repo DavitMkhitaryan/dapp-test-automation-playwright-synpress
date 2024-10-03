@@ -2,8 +2,6 @@ name: all-demo-tests
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * *"
 
 concurrency:
   group: ci-demo
